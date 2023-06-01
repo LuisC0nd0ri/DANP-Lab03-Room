@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -112,17 +114,28 @@ fun MyApplication() {
             text = "Inscripciones",
             fontSize = 24.sp,
             modifier = Modifier
-                .padding(bottom = 20.dp)
+                .padding(bottom = 40.dp)
         )
 
         Button(onClick = fillDataOnClick ,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(8.dp))
+
         ) {
             Text(text = "Generar inscripciones")
         }
+        
+        Spacer(modifier = Modifier.padding(10.dp))
 
         Button(onClick = courseWithStudentsOnClick ,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                //.background(color = Color.Blue, shape = RoundedCornerShape(8.dp))
+                .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(8.dp))
+
         ) {
             Text(text = "Visualizar inscripciones")
         }
