@@ -1,10 +1,13 @@
 package com.luiscv.laboratorio03_room
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -13,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -71,12 +75,14 @@ fun MyApplication() {
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
+            .background(Color.LightGray)
             .padding(30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         val fillDataOnClick = {
-            fillTables(dao, scope)
+            fillTables(dao, scope, context)
         }
 
         val courseWithStudentsOnClick: () -> Unit = {
@@ -88,10 +94,12 @@ fun MyApplication() {
 
                 dao.getCourseWithStudents().forEach{
                     Log.d("Curso con estudiantes: ", it.toString())
-                    //song.map es para ver solo los nombres de los estudiantes
-                    var listStudents = it.students.map{ it.fullname }.toString()
 
-                    data += listOf(it.courseEntity.name, listStudents.substring(1,listStudents.length-1) )
+                //song.map es para ver solo los nombres de los estudiantes
+                var listStudents = it.students.map{ it.fullname }.toString()
+
+                data += listOf(it.courseEntity.name, listStudents.substring(1,listStudents.length-1) )
+
                 }
                 showSelectDialog.value = true
 
@@ -124,7 +132,7 @@ fun MyApplication() {
 
 }
 
-fun fillTables(dao: EnrollmentDao, scope: CoroutineScope) {
+fun fillTables(dao: EnrollmentDao, scope: CoroutineScope, context: Context) {
 
     val student1 = StudentEntity(0,"Luis Condori")
     val student2 = StudentEntity(1, "Juan Lopez")
@@ -148,17 +156,28 @@ fun fillTables(dao: EnrollmentDao, scope: CoroutineScope) {
 
 
     scope.launch {
-        dao.insertStudent(student1)
-        dao.insertStudent(student2)
-        dao.insertStudent(student3)
 
-        dao.insertCourse(course1)
-        dao.insertCourse(course2)
+        try {
 
-        dao.enrollStudentInCourse(student_course_1)
-        dao.enrollStudentInCourse(student_course_2)
-        dao.enrollStudentInCourse(student_course_3)
-        dao.enrollStudentInCourse(student_course_4)
+            dao.insertStudent(student1)
+            dao.insertStudent(student2)
+            dao.insertStudent(student3)
+
+            dao.insertCourse(course1)
+            dao.insertCourse(course2)
+
+            dao.enrollStudentInCourse(student_course_1)
+            dao.enrollStudentInCourse(student_course_2)
+            dao.enrollStudentInCourse(student_course_3)
+            dao.enrollStudentInCourse(student_course_4)
+
+            Toast.makeText(context, "Inscritos correctamente", Toast.LENGTH_SHORT).show()
+
+        }catch (e:Exception){
+            Toast.makeText(context, "Ya se generaron los datos", Toast.LENGTH_SHORT).show()
+        }
+
+
     }
 }
 
