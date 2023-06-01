@@ -27,6 +27,7 @@ fun mostrarCursoConEstudiantes(
             onDismissRequest = { /*TODO*/ showSelectDialog.value = false },
             confirmButton = {
                 TextButton(onClick = { /*TODO*/
+                    data.clear()  //para no duplicar resultados
                     showSelectDialog.value = false
                 }) {
                     Text(text = "Ok")
